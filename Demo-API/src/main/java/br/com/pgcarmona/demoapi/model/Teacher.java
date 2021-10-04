@@ -1,0 +1,31 @@
+package br.com.pgcarmona.demoapi.model;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import br.com.pgcarmona.demoapi.model.joins.TeacherStudent;
+import br.com.pgcarmona.demoapi.model.joins.TeacherSubject;
+import lombok.Data;
+
+@Entity
+@Table(name = "teacher")
+@Data 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "tch_name")
+    private String name;
+    @OneToMany(mappedBy = "teacher")
+    private List<TeacherSubject> subjects;
+    @OneToMany(mappedBy = "teacher")
+    private List<TeacherStudent> students;
+}
