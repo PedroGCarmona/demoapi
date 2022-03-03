@@ -14,7 +14,6 @@
 	<name>Demo-API</name>
 	<description>Demo project</description>
 	<properties>
-		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.20</org.projectlombok.version>
 		<java.version>11</java.version>
 	</properties>
@@ -67,12 +66,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${org.mapstruct.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 			<version>4.4.3</version>
@@ -88,11 +81,6 @@
 					<source>11</source>
 					<target>11</target>
 					<annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
-                        </path>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>

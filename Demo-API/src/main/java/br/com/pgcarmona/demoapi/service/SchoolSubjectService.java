@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.pgcarmona.demoapi.dto.SchoolSubjectDTO;
-import br.com.pgcarmona.demoapi.mappers.SchoolSubjectMapper;
+import br.com.pgcarmona.demoapi.model.SchoolSubject;
 import br.com.pgcarmona.demoapi.repository.SchoolSubjectRepository;
 
 
@@ -18,19 +18,16 @@ public class SchoolSubjectService {
     @Autowired
     SchoolSubjectRepository schoolSubjectRepository;
 
-    @Autowired
-    SchoolSubjectMapper schoolSubjectMapper;
-
     public void save(SchoolSubjectDTO schoolSubjectDTO){
-        schoolSubjectRepository.save(schoolSubjectMapper.schoolSubjectDTOToSchoolSubject(schoolSubjectDTO));
+        schoolSubjectRepository.save(new SchoolSubject(schoolSubjectDTO));
     }
 
     public List<SchoolSubjectDTO> findAll(){
-        return schoolSubjectRepository.findAll().stream().map(schoolSubjectMapper::schoolSubjectToSchoolSubjectDto).collect(Collectors.toList());
+        return schoolSubjectRepository.findAll().stream().map(SchoolSubjectDTO::new).collect(Collectors.toList());
     }
 
     public SchoolSubjectDTO findById(Long id) throws Exception{
-        SchoolSubjectDTO schoolSubjectDTO = schoolSubjectMapper.schoolSubjectToSchoolSubjectDto(schoolSubjectRepository.findById(id).orElse(null));
+        SchoolSubjectDTO schoolSubjectDTO = new SchoolSubjectDTO(schoolSubjectRepository.findById(id).orElse(null));
         
         if(Objects.isNull(schoolSubjectDTO)){
             throw new Exception("No school subject with id: " + id);
@@ -40,7 +37,7 @@ public class SchoolSubjectService {
     }
 
     public void deleteById(Long id) throws Exception{
-        SchoolSubjectDTO schoolSubjectDTO = schoolSubjectMapper.schoolSubjectToSchoolSubjectDto(schoolSubjectRepository.findById(id).orElse(null));
+        SchoolSubjectDTO schoolSubjectDTO = new SchoolSubjectDTO(schoolSubjectRepository.findById(id).orElse(null));
         
         if(Objects.isNull(schoolSubjectDTO)){
             throw new Exception("No school subject with id: " + id);

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.pgcarmona.demoapi.dto.StudentDTO;
-import br.com.pgcarmona.demoapi.mappers.StudentMapper;
+import br.com.pgcarmona.demoapi.model.Student;
 import br.com.pgcarmona.demoapi.repository.StudentRepository;
 import br.com.pgcarmona.demoapi.repository.Implements.StudentRepositoryImpl;
 
@@ -21,19 +21,16 @@ public class StudentService {
     @Autowired
     private StudentRepositoryImpl studentRepositoryImpl;
 
-    @Autowired
-    private StudentMapper studentMapper;
-
     public void save(StudentDTO studentDTO){
-        studentRepository.save(studentMapper.studentDTOToStudent(studentDTO));
+        studentRepository.save(new Student(studentDTO));
     }
 
     public List<StudentDTO> findAll(){
-        return studentRepository.findAll().stream().map(studentMapper::studentToStudentDto).collect(Collectors.toList());
+        return studentRepository.findAll().stream().map(StudentDTO::new).collect(Collectors.toList());
     }
 
     public StudentDTO findById(Long id) throws Exception{
-        StudentDTO studentDTO = studentMapper.studentToStudentDto(studentRepository.findById(id).orElse(null));
+        StudentDTO studentDTO = new StudentDTO(studentRepository.findById(id).orElse(null));
         
         if(Objects.isNull(studentDTO)){
             throw new Exception("No student with id: " + id);
@@ -43,7 +40,7 @@ public class StudentService {
     }
 
     public void deleteById(Long id) throws Exception{
-        StudentDTO studentDTO = studentMapper.studentToStudentDto(studentRepository.findById(id).orElse(null));
+        StudentDTO studentDTO = new StudentDTO(studentRepository.findById(id).orElse(null));
         
         if(Objects.isNull(studentDTO)){
             throw new Exception("No student with id: " + id);
@@ -53,7 +50,7 @@ public class StudentService {
     }
 
     public List<StudentDTO> findByTeacher(Long teacherId){
-        return studentRepositoryImpl.findByTeacher(teacherId).stream().map(studentMapper::studentToStudentDto).collect(Collectors.toList());
+        return studentRepositoryImpl.findByTeacher(teacherId).stream().map(StudentDTO::new).collect(Collectors.toList());
     }
 
 }
